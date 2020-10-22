@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.uow.dao.FlightMapper" >
+  <resultMap id="BaseResultMap" type="com.uow.po.Flight" >
+    <id column="flightid" property="flightid" jdbcType="VARCHAR" />
+    <result column="airline" property="airline" jdbcType="VARCHAR" />
+    <result column="flightnumber" property="flightnumber" jdbcType="VARCHAR" />
+    <result column="departure_time" property="departureTime" jdbcType="TIMESTAMP" />
+    <result column="arrival_time" property="arrivalTime" jdbcType="TIMESTAMP" />
+    <result column="departure_city" property="departureCity" jdbcType="VARCHAR" />
+    <result column="arrival_city" property="arrivalCity" jdbcType="VARCHAR" />
+    <result column="air_fare" property="airFare" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    flightid, airline, flightnumber, departure_time, arrival_time, departure_city, arrival_city, 
+    air_fare
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.uow.po.FlightExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from flight
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from flight
+    where flightid = #{flightid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from flight
+    where flightid = #{flightid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.uow.po.FlightExample" >
+    delete from flight
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.uow.po.Flight" >
+    insert into flight (flightid, airline, flightnumber, 
+      departure_time, arrival_time, departure_city, 
+      arrival_city, air_fare)
+    values (#{flightid,jdbcType=VARCHAR}, #{airline,jdbcType=VARCHAR}, #{flightnumber,jdbcType=VARCHAR}, 
+      #{departureTime,jdbcType=TIMESTAMP}, #{arrivalTime,jdbcType=TIMESTAMP}, #{departureCity,jdbcType=VARCHAR}, 
+      #{arrivalCity,jdbcType=VARCHAR}, #{airFare,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.uow.po.Flight" >
+    insert into flight
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="flightid != null" >
+        flightid,
+      </if>
+      <if test="airline != null" >
+        airline,
+      </if>
+      <if test="flightnumber != null" >
+        flightnumber,
+      </if>
+      <if test="departureTime != null" >
+        departure_time,
+      </if>
+      <if test="arrivalTime != null" >
+        arrival_time,
+      </if>
+      <if test="departureCity != null" >
+        departure_city,
+      </if>
+      <if test="arrivalCity != null" >
+        arrival_city,
+      </if>
+      <if test="airFare != null" >
+        air_fare,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="flightid != null" >
+        #{flightid,jdbcType=VARCHAR},
+      </if>
+      <if test="airline != null" >
+        #{airline,jdbcType=VARCHAR},
+      </if>
+      <if test="flightnumber != null" >
+        #{flightnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="departureTime != null" >
+        #{departureTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="arrivalTime != null" >
+        #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="departureCity != null" >
+        #{departureCity,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalCity != null" >
+        #{arrivalCity,jdbcType=VARCHAR},
+      </if>
+      <if test="airFare != null" >
+        #{airFare,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.uow.po.FlightExample" resultType="java.lang.Integer" >
+    select count(*) from flight
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update flight
+    <set >
+      <if test="record.flightid != null" >
+        flightid = #{record.flightid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.airline != null" >
+        airline = #{record.airline,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flightnumber != null" >
+        flightnumber = #{record.flightnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departureTime != null" >
+        departure_time = #{record.departureTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.arrivalTime != null" >
+        arrival_time = #{record.arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.departureCity != null" >
+        departure_city = #{record.departureCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.arrivalCity != null" >
+        arrival_city = #{record.arrivalCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.airFare != null" >
+        air_fare = #{record.airFare,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update flight
+    set flightid = #{record.flightid,jdbcType=VARCHAR},
+      airline = #{record.airline,jdbcType=VARCHAR},
+      flightnumber = #{record.flightnumber,jdbcType=VARCHAR},
+      departure_time = #{record.departureTime,jdbcType=TIMESTAMP},
+      arrival_time = #{record.arrivalTime,jdbcType=TIMESTAMP},
+      departure_city = #{record.departureCity,jdbcType=VARCHAR},
+      arrival_city = #{record.arrivalCity,jdbcType=VARCHAR},
+      air_fare = #{record.airFare,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.uow.po.Flight" >
+    update flight
+    <set >
+      <if test="airline != null" >
+        airline = #{airline,jdbcType=VARCHAR},
+      </if>
+      <if test="flightnumber != null" >
+        flightnumber = #{flightnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="departureTime != null" >
+        departure_time = #{departureTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="arrivalTime != null" >
+        arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="departureCity != null" >
+        departure_city = #{departureCity,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalCity != null" >
+        arrival_city = #{arrivalCity,jdbcType=VARCHAR},
+      </if>
+      <if test="airFare != null" >
+        air_fare = #{airFare,jdbcType=INTEGER},
+      </if>
+    </set>
+    where flightid = #{flightid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.uow.po.Flight" >
+    update flight
+    set airline = #{airline,jdbcType=VARCHAR},
+      flightnumber = #{flightnumber,jdbcType=VARCHAR},
+      departure_time = #{departureTime,jdbcType=TIMESTAMP},
+      arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
+      departure_city = #{departureCity,jdbcType=VARCHAR},
+      arrival_city = #{arrivalCity,jdbcType=VARCHAR},
+      air_fare = #{airFare,jdbcType=INTEGER}
+    where flightid = #{flightid,jdbcType=VARCHAR}
+  </update>
+</mapper>

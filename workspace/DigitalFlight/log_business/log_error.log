@@ -1,0 +1,33 @@
+2020-10-22 00:01:55.916 [main] ERROR org.springframework.boot.SpringApplication -Application startup failed
+java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Could not create component [dataSource] of type [org.apache.commons.dbcp.BasicDataSource] java.lang.ClassNotFoundException: org.apache.commons.dbcp.BasicDataSource
+ERROR in ch.qos.logback.core.joran.spi.Interpreter@190:34 - no applicable action for [driverClassName], current ElementPath  is [[configuration][appender][connectionSource][dataSource][driverClassName]]
+ERROR in ch.qos.logback.core.joran.spi.Interpreter@191:22 - no applicable action for [url], current ElementPath  is [[configuration][appender][connectionSource][dataSource][url]]
+ERROR in ch.qos.logback.core.joran.spi.Interpreter@192:27 - no applicable action for [username], current ElementPath  is [[configuration][appender][connectionSource][dataSource][username]]
+ERROR in ch.qos.logback.core.joran.spi.Interpreter@202:16 - RuntimeException in Action for tag [appender] java.lang.IllegalStateException: DBAppender cannot function if the JDBC driver does not support getGeneratedKeys method *and* without a specific SQL dialect
+	at org.springframework.boot.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:315)
+	at org.springframework.boot.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:276)
+	at org.springframework.boot.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:239)
+	at org.springframework.boot.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:212)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:167)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:122)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:74)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:54)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:325)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:296)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107)
+	at com.uow.DigitalFlight.main(DigitalFlight.java:13)
+Caused by: java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Could not create component [dataSource] of type [org.apache.commons.dbcp.BasicDataSource] java.lang.ClassNotFoundException: org.apache.commons.dbcp.BasicDataSource
+ERROR in ch.qos.logback.core.joran.spi.Interpreter@190:34 - no applicable action for [driverClassName], current ElementPath  is [[configuration][appender][connectionSource][dataSource][driverClassName]]
+ERROR in ch.qos.logback.core.joran.spi.Interpreter@191:22 - no applicable action for [url], current ElementPath  is [[configuration][appender][connectionSource][dataSource][url]]
+ERROR in ch.qos.logback.core.joran.spi.Interpreter@192:27 - no applicable action for [username], current ElementPath  is [[configuration][appender][connectionSource][dataSource][username]]
+ERROR in ch.qos.logback.core.joran.spi.Interpreter@202:16 - RuntimeException in Action for tag [appender] java.lang.IllegalStateException: DBAppender cannot function if the JDBC driver does not support getGeneratedKeys method *and* without a specific SQL dialect
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:162)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithSpecificConfig(AbstractLoggingSystem.java:66)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:56)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:115)
+	at org.springframework.boot.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:308)
+	... 13 common frames omitted
