@@ -1,12 +1,14 @@
 package com.uow.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,11 +26,30 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 
-	@ApiOperation("")
-	@RequestMapping(value = "/getCustomer", method = RequestMethod.POST)
+	@ApiOperation("signin")
+	@RequestMapping(value = "/signin", method = RequestMethod.POST)
 	@ResponseBody
-	public List<Customer> getCustomer(HttpServletRequest request) throws Exception {
-		return customerService.selectByExample();
+	public int signin(@RequestParam(name = "username", required = true) String username,
+			@RequestParam(name = "password", required = true) String password) throws Exception {
+		Customer customer = new Customer();
+		customer.setCustomerid(UUID.randomUUID().toString().replace("-", ""));
+		customer.setUsername(username);
+		customer.setPassword(password);
+		return customerService.insert(customer);
+	}
+
+	@ApiOperation("login")
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@ResponseBody
+	public String login(@RequestParam(name = "username", required = true) String username,
+			@RequestParam(name = "password", required = true) String password) throws Exception {
+
+		Customer customer = customerService.selectCustomerByPasswordAndUsername(username, password);
+		if (customer != null) {
+			return UUID.randomUUID().toString().replace("-", "");
+		}
+		return "";
+
 	}
 
 }
