@@ -23,7 +23,7 @@ public class FlightController {
 	@ApiOperation("flight")
 	@RequestMapping(value = "/flight", method = RequestMethod.POST)
 	@ResponseBody
-	public List<Flight> signin() throws Exception {
+	public List<Flight> flight() throws Exception {
 		return flightService.selectByExample();
 	}
 

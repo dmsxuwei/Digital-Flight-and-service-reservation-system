@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.uow.po.Customer;
 import com.uow.service.CustomerService;
-
+import com.uow.util.MapCache;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -42,10 +41,23 @@ public class CustomerController {
 
 		Customer customer = customerService.selectCustomerByPasswordAndUsername(username, password);
 		if (customer != null) {
-			return UUID.randomUUID().toString().replace("-", "");
+			String secretid = UUID.randomUUID().toString().replace("-", "");
+			MapCache.set(secretid, customer.getCustomerid());
+			return secretid;
 		}
 		return "";
+	}
 
+	@ApiOperation("profile")
+	@RequestMapping(value = "/profile", method = RequestMethod.POST)
+	@ResponseBody
+	public Customer profile(@RequestParam(name = "secretid", required = true) String secretid) throws Exception {
+		String customerid = (String) MapCache.get(secretid);
+		if (customerid == null || "".equals(customerid)) {
+			return null;
+		} else {
+			return customerService.selectByPrimaryKey(customerid);
+		}
 	}
 
 }
