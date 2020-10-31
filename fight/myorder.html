@@ -12,99 +12,48 @@
 		<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="js/jquery.cookie.js"></script>
 		<style>
-			.orderclass {
-				color: red;
+			<style>tr {
+				border-bottom: 1px solid #d6d6d6;
 			}
+		</style>
 		</style>
 
 		<script>
 			var fid;
 			var secretid_ck = $.cookie('secretid'); // 读取 cookie
 			$(function() {
-
-				//var flighttime = "07/22 Wednesday";
 				var d = new Date();
 
 				$("#flighttime").html(formatDate2(d) + " " + getWeekDate());
 
+				if(secretid_ck == 0) {
+					window.location.href = "index.html";
+				}
 				$.ajax({
-					url: "http://47.92.31.116:8888/flight/flight",
+					url: "http://47.92.31.116:8888/flightorder/myorder",
 					type: 'post', //提交的方式
 					async: false,
+					data: {
+						secretid: secretid_ck
+					},
 					error: function(request) { //失败的话
-						//$.messager.alert('ERROR', 'Connection error');
+
 					},
 					success: function(result) {
-						if(result == "") {
-
-						} else {
-							for(i = 0; i < result.length; i++) {
-								var flight = result[i];
-								var airline = flight.airline;
-
-								var departureTime = formatDate(flight.departureTime);
-								var departureCity = flight.departureCity;
-
-								var arrivalTime = formatDate(flight.arrivalTime);
-								var arrivalCity = flight.departureCity;
-
-								var airFare = flight.airFare;
-
-								$("#flight").append(
-									"<div onclick='selectOrder(this," + flight.flightid + ");'>" +
-									"<div class=\"row\" style=\"font-size: 22px;margin-top:10px\">" +
-									"<div>" + airline + "</div>" +
-									"<div id=\"flightid\" style=\"display:none\"></div>" +
-									"</div>" +
-
-									"<div class=\"row\" style=\"font-size: 22px;width: 100%; \">" +
-									"<div style=\"float: left;width: 20%;\">" +
-									"<div>" + departureTime + "</div>" +
-									"<div>" + departureCity + "</div>" +
-									"</div>" +
-
-									"<div style=\"float: left;width: 30%;height:35px;border-bottom: 3px solid blue;\"></div>" +
-									"<div style=\"float: left;width: 30%; \">" +
-									"<div>" + arrivalTime + "</div>" +
-									"<div>" + arrivalCity + "</div>" +
-									"</div>" +
-									"<div style=\"float: left;width: 20%;font-size: 18px;text-align: right;\">" +
-									"<div>$" + airFare + "</div>" +
-									"<div>economy class</div>" +
-									"</div>" +
-									"</div>" +
-									"<div class=\"row \" style=\"font-size: 22px; margin-top:10px;border-bottom: 1px solid black;\"></div>" +
-									"</div>"
-								);
-
-							}
-						}
-					}
-
-				});
-
-				$("#order").click(function() {
-					if(secretid_ck == 0) {
-						window.location.href = "index.html";
-					}
-					$.ajax({
-						url: "http://47.92.31.116:8888/flightorder/order",
-						type: 'post', //提交的方式
-						async: false,
-						data: {
-							secretid: secretid_ck,
-							flightid: fid
-						},
-						success: function(result) {
-							if(result == 1) {
-								$("#msg").text("You have successfully booked your flight");
-								$('#show').trigger("click");
-							}
+						var length=result.length;
+						
+						var tbody = $("#myorder_tbody");
+						for(i = 0; i < length; i++) {
+							var flightorderid=result[i].flightorderid;
+							var departure=result[i].departure;
+							var arrival=result[i].arrival;
+							var airfare=result[i].airfare;
+							var airline=result[i].airline;
+							tbody.append("<tr><td>"+airline+"</td><td>"+departure+"</td><td>"+arrival+"</td><td>$"+airfare+"</td></tr>");
 
 						}
-					});
 
-					//alert(fid);
+					}
 
 				});
 
@@ -208,7 +157,7 @@
 		<div style="margin-bottom:20px;">
 			<div style="background:#709bd0;height:100px">
 				<div>
-					<div style="text-align: center;font-size: 18px; ">Flight home page</div>
+					<div style="text-align: center;font-size: 18px; ">My flight order information</div>
 				</div>
 				<div id="flighttime" style="font-size: 22px;margin-top: 25px; ">
 
@@ -216,14 +165,26 @@
 			</div>
 		</div>
 
-		<div id="flight" class="container-fluid" style="margin: 0 25px;">
+		<div class="container-fluid" style="margin: 0 0px;width:100%">
+			<table data-mode="columntoggle" class="ui-responsive ui-shadow" style="width:100%">
+				<thead>
+					<tr>
+						<th>Airline</th>
+						<th>Departure</th>
+						<th>Arrival</th>
+						<th>AirFare</th>
+					</tr>
+				</thead>
+				<tbody id="myorder_tbody">
+				</tbody>
+			</table>
 
 		</div>
 		<div style="position:fixed;background-color:aquamarine; height:60px;width:100%;bottom:0px;">
 			<div id="" style="width: 100%;font-size: 22px;text-align: center;margin-top: 10px;">
 				<div id="home" style="width: 33%; float:left;" onclick="window.location.href = 'index.html'">Home</div>
-				<div id="order" style="width: 34%; float:left;">Place Order</div>
-				<div id="myorder" style="width: 33%; float:left;" onclick="window.location.href = 'myorder.html'">My order</div>
+				<div id="delete" style="width: 34%; float:left;"></div>
+				<div id="flight" style="width: 33%; float:left;" onclick="window.location.href = 'home.html'">Flight</div>
 			</div>
 
 		</div>

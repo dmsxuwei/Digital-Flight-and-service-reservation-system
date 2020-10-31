@@ -1,6 +1,7 @@
 package com.uow.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,7 @@ public class FlightorderController {
 	@ApiOperation("myorder")
 	@RequestMapping(value = "/myorder", method = RequestMethod.POST)
 	@ResponseBody
-	public List<Flightorder> myorder(@RequestParam(name = "secretid", required = true) String secretid) throws Exception {
+	public List<Map<String, Object>> myorder(@RequestParam(name = "secretid", required = true) String secretid) throws Exception {
 		String customerid = (String) MapCache.get(secretid);
 		if (customerid == null || "".equals(customerid)) {
 			return null;

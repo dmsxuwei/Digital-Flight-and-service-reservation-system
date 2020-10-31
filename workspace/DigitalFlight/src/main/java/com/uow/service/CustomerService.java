@@ -14,6 +14,20 @@ public class CustomerService {
 
 	@Autowired
 	private CustomerMapper customerMapper;
+	
+	
+	public Customer selectCustomerByUsername(String username) {
+		
+		CustomerExample example=new CustomerExample();
+		Criteria criteria=example.createCriteria();	
+		criteria.andUsernameEqualTo(username);
+		List<Customer> customers= customerMapper.selectByExample(example);
+		if(customers.size()!=1) {
+			return null;
+		}else {
+			return customers.get(0);
+		}
+	}
 
 	public Customer selectCustomerByPasswordAndUsername(String username,String password) {
 		

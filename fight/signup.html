@@ -4,17 +4,67 @@
 	<head>
 		<meta charset="utf-8" />
 		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+		<script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 		<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-		<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 		<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+		<script>
+			$(function() {
+
+				$("#signup").click(function() {
+					var username = $("#username").val();
+					var password = $("#password").val();
+					$.ajax({
+						url: "http://47.92.31.116:8888/customer/signup",
+						type: 'post', //提交的方式
+						async: false,
+						data: {
+							username: username,
+							password: password
+						},
+						error: function(request) {
+							//$.messager.alert('ERROR', 'Connection error');
+						},
+						success: function(result) {
+							if(result == 0) {
+
+							} else if(result == 2) {
+								$("#msg").text("The account already exists");
+								$('#show').trigger("click");
+							} else if(result == 1) { //success
+								$("#msg").text("Registration is successful, please login");
+								$('#show').trigger("click");
+							}
+						}
+
+					});
+				});
+
+				$("#signin").click(function() {
+					window.location.href = "index.html";
+				});
+
+			});
+		</script>
 	</head>
 
-	<body style="background-color: #709bd0;">
+	<body>
+		<a id="show" href="#myPopup1" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all" data-position-to="window" style="display:none"></a>
+
+		<div data-role="popup" id="myPopup1" class="ui-content" data-overlay-theme="b" data-transition="flip">
+			<p id="msg"></p>
+		</div>
+
 		<div class="container-fluid">
-			<div class="row" style="margin-top:30px">
+			<div class="row" style="margin-top:20px">
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
-					<div style="margin-left:120px ;"><img style="width:180px;height: 180px;margin: auto; " src="logo.jpg" alt="..." class="img-circle"></div>
+					<div style="margin-left:130px ;"><img style="width:180px;height: 180px;margin: auto; " src="logo.jpg" alt="..." class="img-circle"></div>
+					<div style="margin-top:40px ; text-align: center;">
+						<h2>Digital Flight System</h2></div>
 				</div>
 				<div class="col-md-4"></div>
 			</div>
@@ -25,20 +75,21 @@
 					<div style="">
 						<form>
 							<div style="width:100%;">
-								<input style="height: 50px" class="form-control" id="exampleInputEmail1" placeholder="Email">
+								<input id="username" style="height: 50px" class="form-control" id="exampleInputEmail1" placeholder="Email">
 							</div>
 							<div style="width:100%;">
-								<input style="height: 50px" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+								<input id="password" style="height: 50px" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
 							</div>
 							<div style="width:100%;margin-top: 30px;">
-								<button style="width:100%;height: 50px;background-color: #705ac0;" type="submit" class="btn btn-default">Sign in</button>
+								<button id="signup" style="width:100%;height: 50px;" type="button" class="btn btn-default">Sign up</button>
 							</div>
 						</form>
 					</div>
-					
+
 					<div style="float: right;padding-right: 20px; margin-top:10px ;">
-						<button style="background-color: #709bd0;border: 0px solid red;">Sign up</button></div>
-					
+						<a id="signin" style="border: 0px solid red;">Sign in</a>
+					</div>
+
 				</div>
 				<div class="col-md-4"></div>
 			</div>

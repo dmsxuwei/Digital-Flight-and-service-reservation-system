@@ -21,8 +21,8 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 
-	@ApiOperation("signin")
-	@RequestMapping(value = "/signin", method = RequestMethod.POST)
+	@ApiOperation("signup")
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	@ResponseBody
 	public int signin(@RequestParam(name = "username", required = true) String username,
 			@RequestParam(name = "password", required = true) String password) throws Exception {
@@ -30,6 +30,11 @@ public class CustomerController {
 		customer.setCustomerid(UUID.randomUUID().toString().replace("-", ""));
 		customer.setUsername(username);
 		customer.setPassword(password);
+		
+		if(customerService.selectCustomerByUsername(username)!=null) {
+			return 2;
+		}
+		
 		return customerService.insert(customer);
 	}
 
